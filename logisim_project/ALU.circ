@@ -837,7 +837,7 @@
     </comp>
     <comp lib="0" loc="(440,1430)" name="Tunnel">
       <a name="facing" val="east"/>
-      <a name="label" val="A_IN"/>
+      <a name="label" val="SBC_OUT"/>
       <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(440,1460)" name="Splitter">
@@ -879,7 +879,7 @@
     </comp>
     <comp lib="0" loc="(440,1460)" name="Tunnel">
       <a name="facing" val="east"/>
-      <a name="label" val="ADC_OUT"/>
+      <a name="label" val="A_IN"/>
       <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(440,1520)" name="Splitter">
@@ -921,7 +921,7 @@
     </comp>
     <comp lib="0" loc="(440,1520)" name="Tunnel">
       <a name="facing" val="east"/>
-      <a name="label" val="CMN_OUT"/>
+      <a name="label" val="CMP_OUT"/>
       <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(440,1550)" name="Splitter">
@@ -1743,10 +1743,9 @@
     <wire from="(460,1290)" to="(510,1290)"/>
     <wire from="(460,1320)" to="(480,1320)"/>
     <wire from="(460,1350)" to="(490,1350)"/>
-    <wire from="(460,1400)" to="(520,1400)"/>
-    <wire from="(460,1430)" to="(460,1440)"/>
-    <wire from="(460,1440)" to="(520,1440)"/>
-    <wire from="(460,1460)" to="(510,1460)"/>
+    <wire from="(460,1400)" to="(510,1400)"/>
+    <wire from="(460,1430)" to="(480,1430)"/>
+    <wire from="(460,1460)" to="(490,1460)"/>
     <wire from="(460,1520)" to="(460,1540)"/>
     <wire from="(460,1540)" to="(510,1540)"/>
     <wire from="(460,1550)" to="(460,1560)"/>
@@ -1760,8 +1759,12 @@
     <wire from="(470,1650)" to="(520,1650)"/>
     <wire from="(480,1310)" to="(480,1320)"/>
     <wire from="(480,1310)" to="(520,1310)"/>
+    <wire from="(480,1420)" to="(480,1430)"/>
+    <wire from="(480,1420)" to="(520,1420)"/>
     <wire from="(490,1330)" to="(490,1350)"/>
     <wire from="(490,1330)" to="(520,1330)"/>
+    <wire from="(490,1440)" to="(490,1460)"/>
+    <wire from="(490,1440)" to="(520,1440)"/>
     <wire from="(490,1520)" to="(490,1580)"/>
     <wire from="(490,1520)" to="(510,1520)"/>
     <wire from="(490,1580)" to="(510,1580)"/>
@@ -1776,8 +1779,8 @@
     <wire from="(510,1290)" to="(510,1350)"/>
     <wire from="(510,1290)" to="(520,1290)"/>
     <wire from="(510,1350)" to="(520,1350)"/>
-    <wire from="(510,1420)" to="(510,1460)"/>
-    <wire from="(510,1420)" to="(520,1420)"/>
+    <wire from="(510,1400)" to="(510,1460)"/>
+    <wire from="(510,1400)" to="(520,1400)"/>
     <wire from="(510,1460)" to="(520,1460)"/>
     <wire from="(520,1820)" to="(520,1860)"/>
     <wire from="(520,1940)" to="(520,1980)"/>
