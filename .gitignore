@@ -2,3 +2,4 @@
 code_c/draft
 out/
 *.gz
+/.idea/sonarlint/*
