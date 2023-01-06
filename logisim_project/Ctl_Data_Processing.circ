@@ -15,9 +15,6 @@
       <a name="facing" val="west"/>
       <a name="radix" val="10unsigned"/>
     </tool>
-    <tool name="Tunnel">
-      <a name="facing" val="south"/>
-    </tool>
     <tool name="Pull Resistor">
       <a name="facing" val="north"/>
     </tool>
@@ -235,9 +232,97 @@ end TCL_Generic;
       <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="196" y="143">Flags_Update_Mask</text>
       <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="85" y="84">Enable</text>
     </appear>
+    <comp lib="0" loc="(100,360)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="OP_IN"/>
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(100,430)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="OP_IN"/>
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(100,500)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="OP_IN"/>
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(150,360)" name="Splitter">
+      <a name="bit0" val="none"/>
+      <a name="bit1" val="none"/>
+      <a name="bit10" val="none"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+      <a name="bit2" val="none"/>
+      <a name="bit3" val="none"/>
+      <a name="bit4" val="none"/>
+      <a name="bit5" val="none"/>
+      <a name="bit6" val="0"/>
+      <a name="bit7" val="1"/>
+      <a name="bit8" val="2"/>
+      <a name="bit9" val="3"/>
+      <a name="fanout" val="4"/>
+      <a name="incoming" val="16"/>
+    </comp>
+    <comp lib="0" loc="(150,430)" name="Splitter">
+      <a name="bit0" val="none"/>
+      <a name="bit1" val="none"/>
+      <a name="bit10" val="none"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+      <a name="bit2" val="none"/>
+      <a name="bit3" val="none"/>
+      <a name="bit4" val="none"/>
+      <a name="bit5" val="none"/>
+      <a name="bit6" val="0"/>
+      <a name="bit7" val="1"/>
+      <a name="bit8" val="2"/>
+      <a name="bit9" val="3"/>
+      <a name="fanout" val="4"/>
+      <a name="incoming" val="16"/>
+    </comp>
+    <comp lib="0" loc="(150,500)" name="Splitter">
+      <a name="bit0" val="none"/>
+      <a name="bit1" val="none"/>
+      <a name="bit10" val="none"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+      <a name="bit2" val="none"/>
+      <a name="bit3" val="none"/>
+      <a name="bit4" val="none"/>
+      <a name="bit5" val="none"/>
+      <a name="bit6" val="0"/>
+      <a name="bit7" val="1"/>
+      <a name="bit8" val="2"/>
+      <a name="bit9" val="3"/>
+      <a name="fanout" val="4"/>
+      <a name="incoming" val="16"/>
+    </comp>
     <comp lib="0" loc="(210,130)" name="Pin">
       <a name="label" val="Instruction"/>
       <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(240,130)" name="Tunnel">
+      <a name="label" val="OP_IN"/>
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(290,330)" name="Tunnel">
+      <a name="label" val="ANDS"/>
+    </comp>
+    <comp lib="0" loc="(290,400)" name="Tunnel">
+      <a name="label" val="ANDS"/>
+    </comp>
+    <comp lib="0" loc="(290,470)" name="Tunnel">
+      <a name="label" val="ANDS"/>
     </comp>
     <comp lib="0" loc="(470,70)" name="Pin">
       <a name="facing" val="south"/>
@@ -273,6 +358,27 @@ end TCL_Generic;
       <a name="output" val="true"/>
       <a name="width" val="3"/>
     </comp>
+    <comp lib="1" loc="(270,330)" name="AND Gate">
+      <a name="inputs" val="4"/>
+      <a name="negate0" val="true"/>
+      <a name="negate1" val="true"/>
+      <a name="negate2" val="true"/>
+      <a name="negate3" val="true"/>
+    </comp>
+    <comp lib="1" loc="(270,400)" name="AND Gate">
+      <a name="inputs" val="4"/>
+      <a name="negate0" val="true"/>
+      <a name="negate1" val="true"/>
+      <a name="negate2" val="true"/>
+      <a name="negate3" val="true"/>
+    </comp>
+    <comp lib="1" loc="(270,470)" name="AND Gate">
+      <a name="inputs" val="4"/>
+      <a name="negate0" val="true"/>
+      <a name="negate1" val="true"/>
+      <a name="negate2" val="true"/>
+      <a name="negate3" val="true"/>
+    </comp>
     <comp lib="8" loc="(172,536)" name="Text">
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="Note 2: RSB instruction has Rn as 1st operand."/>
@@ -293,5 +399,36 @@ end TCL_Generic;
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="Pull output low on Enable = 0"/>
     </comp>
+    <wire from="(100,360)" to="(150,360)"/>
+    <wire from="(100,430)" to="(150,430)"/>
+    <wire from="(100,500)" to="(150,500)"/>
+    <wire from="(170,320)" to="(190,320)"/>
+    <wire from="(170,330)" to="(200,330)"/>
+    <wire from="(170,340)" to="(210,340)"/>
+    <wire from="(170,350)" to="(210,350)"/>
+    <wire from="(170,390)" to="(190,390)"/>
+    <wire from="(170,400)" to="(200,400)"/>
+    <wire from="(170,410)" to="(210,410)"/>
+    <wire from="(170,420)" to="(210,420)"/>
+    <wire from="(170,460)" to="(190,460)"/>
+    <wire from="(170,470)" to="(200,470)"/>
+    <wire from="(170,480)" to="(210,480)"/>
+    <wire from="(170,490)" to="(210,490)"/>
+    <wire from="(190,310)" to="(190,320)"/>
+    <wire from="(190,310)" to="(210,310)"/>
+    <wire from="(190,380)" to="(190,390)"/>
+    <wire from="(190,380)" to="(210,380)"/>
+    <wire from="(190,450)" to="(190,460)"/>
+    <wire from="(190,450)" to="(210,450)"/>
+    <wire from="(200,320)" to="(200,330)"/>
+    <wire from="(200,320)" to="(210,320)"/>
+    <wire from="(200,390)" to="(200,400)"/>
+    <wire from="(200,390)" to="(210,390)"/>
+    <wire from="(200,460)" to="(200,470)"/>
+    <wire from="(200,460)" to="(210,460)"/>
+    <wire from="(210,130)" to="(240,130)"/>
+    <wire from="(270,330)" to="(290,330)"/>
+    <wire from="(270,400)" to="(290,400)"/>
+    <wire from="(270,470)" to="(290,470)"/>
   </circuit>
 </project>
