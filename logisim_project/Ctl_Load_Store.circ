@@ -280,7 +280,7 @@ end TCL_Generic;
       <a name="label" val="RMD"/>
       <a name="width" val="3"/>
     </comp>
-    <comp lib="0" loc="(1220,940)" name="Constant">
+    <comp lib="0" loc="(1220,950)" name="Constant">
       <a name="facing" val="south"/>
       <a name="value" val="0x0"/>
       <a name="width" val="32"/>
@@ -513,6 +513,24 @@ end TCL_Generic;
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="Delay load and hold PC for 1 cycle for the RAM to send out requested data "/>
     </comp>
+    <comp lib="8" loc="(1329,927)" name="Text">
+      <a name="font" val="SansSerif plain 24"/>
+      <a name="text" val="RAM Adress Calculator"/>
+    </comp>
+    <comp lib="8" loc="(610,508)" name="Text">
+      <a name="font" val="SansSerif plain 24"/>
+      <a name="text" val="Decode Instruction"/>
+    </comp>
+    <comp lib="8" loc="(748,966)" name="Text">
+      <a name="font" val="SansSerif plain 24"/>
+      <a name="text" val="Processing"/>
+    </comp>
+    <wire from="(10,1250)" to="(840,1250)"/>
+    <wire from="(10,930)" to="(10,1250)"/>
+    <wire from="(10,930)" to="(840,930)"/>
+    <wire from="(1030,1080)" to="(1460,1080)"/>
+    <wire from="(1030,900)" to="(1030,1080)"/>
+    <wire from="(1030,900)" to="(1460,900)"/>
     <wire from="(1040,670)" to="(1100,670)"/>
     <wire from="(1060,550)" to="(1090,550)"/>
     <wire from="(1080,1000)" to="(1080,1020)"/>
@@ -523,10 +541,12 @@ end TCL_Generic;
     <wire from="(1110,680)" to="(1110,720)"/>
     <wire from="(1130,660)" to="(1190,660)"/>
     <wire from="(1150,990)" to="(1250,990)"/>
-    <wire from="(1220,940)" to="(1220,970)"/>
+    <wire from="(1220,950)" to="(1220,970)"/>
     <wire from="(1220,970)" to="(1250,970)"/>
     <wire from="(1260,1000)" to="(1260,1040)"/>
+    <wire from="(1270,470)" to="(1270,760)"/>
     <wire from="(1280,980)" to="(1340,980)"/>
+    <wire from="(1460,900)" to="(1460,1080)"/>
     <wire from="(180,1040)" to="(250,1040)"/>
     <wire from="(200,1110)" to="(290,1110)"/>
     <wire from="(200,170)" to="(220,170)"/>
@@ -561,9 +581,13 @@ end TCL_Generic;
     <wire from="(530,70)" to="(530,100)"/>
     <wire from="(560,1170)" to="(560,1210)"/>
     <wire from="(580,1150)" to="(680,1150)"/>
+    <wire from="(60,470)" to="(1270,470)"/>
+    <wire from="(60,470)" to="(60,760)"/>
+    <wire from="(60,760)" to="(1270,760)"/>
     <wire from="(610,1010)" to="(630,1010)"/>
     <wire from="(640,1040)" to="(640,1080)"/>
     <wire from="(660,1020)" to="(760,1020)"/>
+    <wire from="(840,930)" to="(840,1250)"/>
     <wire from="(850,550)" to="(920,550)"/>
     <wire from="(850,660)" to="(910,660)"/>
     <wire from="(870,120)" to="(900,120)"/>

@@ -434,6 +434,21 @@ end TCL_Generic;
       <a name="appearance" val="logisim_evolution"/>
       <a name="width" val="1"/>
     </comp>
+    <comp lib="8" loc="(475,72)" name="Text">
+      <a name="font" val="SansSerif plain 24"/>
+      <a name="text" val="OUT"/>
+    </comp>
+    <comp lib="8" loc="(552,458)" name="Text">
+      <a name="font" val="SansSerif plain 24"/>
+      <a name="text" val="Flag registers"/>
+    </comp>
+    <comp lib="8" loc="(90,203)" name="Text">
+      <a name="font" val="SansSerif plain 24"/>
+      <a name="text" val="IN"/>
+    </comp>
+    <wire from="(200,300)" to="(200,620)"/>
+    <wire from="(200,300)" to="(900,300)"/>
+    <wire from="(200,620)" to="(900,620)"/>
     <wire from="(210,100)" to="(240,100)"/>
     <wire from="(210,140)" to="(240,140)"/>
     <wire from="(210,180)" to="(240,180)"/>
@@ -444,6 +459,7 @@ end TCL_Generic;
     <wire from="(300,510)" to="(320,510)"/>
     <wire from="(300,540)" to="(320,540)"/>
     <wire from="(300,570)" to="(350,570)"/>
+    <wire from="(340,30)" to="(340,230)"/>
     <wire from="(340,330)" to="(350,330)"/>
     <wire from="(340,360)" to="(370,360)"/>
     <wire from="(340,510)" to="(350,510)"/>
@@ -456,6 +472,12 @@ end TCL_Generic;
     <wire from="(350,520)" to="(370,520)"/>
     <wire from="(350,560)" to="(350,570)"/>
     <wire from="(350,560)" to="(370,560)"/>
+    <wire from="(430,230)" to="(690,230)"/>
+    <wire from="(430,30)" to="(430,230)"/>
+    <wire from="(430,30)" to="(690,30)"/>
+    <wire from="(50,230)" to="(340,230)"/>
+    <wire from="(50,30)" to="(340,30)"/>
+    <wire from="(50,30)" to="(50,230)"/>
     <wire from="(540,100)" to="(560,100)"/>
     <wire from="(680,340)" to="(700,340)"/>
     <wire from="(680,370)" to="(700,370)"/>
@@ -463,6 +485,7 @@ end TCL_Generic;
     <wire from="(680,510)" to="(700,510)"/>
     <wire from="(680,540)" to="(700,540)"/>
     <wire from="(680,570)" to="(730,570)"/>
+    <wire from="(690,30)" to="(690,230)"/>
     <wire from="(720,340)" to="(730,340)"/>
     <wire from="(720,370)" to="(750,370)"/>
     <wire from="(720,510)" to="(730,510)"/>
@@ -475,5 +498,6 @@ end TCL_Generic;
     <wire from="(730,520)" to="(750,520)"/>
     <wire from="(730,560)" to="(730,570)"/>
     <wire from="(730,560)" to="(750,560)"/>
+    <wire from="(900,300)" to="(900,620)"/>
   </circuit>
 </project>
