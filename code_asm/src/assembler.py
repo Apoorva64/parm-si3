@@ -1,6 +1,6 @@
 from pyparsing import Word, hexnums, Optional, alphas, alphanums
 
-from assembler_utils import parse_register, parse_imm5, parse_imm8
+from assembler_utils import assemble_register, assemble_imm5, assemble_imm8, assemble_imm3
 
 
 def to_hex(binary: str) -> str:
@@ -8,67 +8,112 @@ def to_hex(binary: str) -> str:
 
 
 asm_map = {
-    'lsls': lambda rd, rm, imm5: "000" +
-                                 "00" +
-                                 parse_imm5(imm5) +
-                                 parse_register(rm) +
-                                 parse_register(rd),
-    'lsrs': lambda rd, rm, imm5: "000" +
-                                 "01" +
-                                 parse_imm5(imm5) +
-                                 parse_register(rm) +
-                                 parse_register(rd),
-    'asrs': lambda rd, rm, imm5: "000" +
-                                 "10" +
-                                 parse_imm5(imm5) +
-                                 parse_register(rm) +
-                                 parse_register(rd),
-    'adds': lambda rd, rn, rm: "000" +
-                               "11" +
-                               "0" +
-                               "0" +
-                               parse_register(rm) +
-                               parse_register(rn) +
-                               parse_register(rd),
-    'subs': lambda rd, rn, rm: "000" +
-                               "11" +
-                               "0" +
-                               "1" +
-                               parse_register(rm) +
-                               parse_register(rn) +
-                               parse_register(rd),
+    'lsls21': lambda rd, rm, imm5: "000" +
+                                   "00" +
+                                   assemble_imm5(imm5) +
+                                   assemble_register(rm) +
+                                   assemble_register(rd),
+    'lsrs21': lambda rd, rm, imm5: "000" +
+                                   "01" +
+                                   assemble_imm5(imm5) +
+                                   assemble_register(rm) +
+                                   assemble_register(rd),
+    'asrs21': lambda rd, rm, imm5: "000" +
+                                   "10" +
+                                   assemble_imm5(imm5) +
+                                   assemble_register(rm) +
+                                   assemble_register(rd),
+    'adds30': lambda rd, rn, rm: "000" +
+                                 "11" +
+                                 "0" +
+                                 "0" +
+                                 assemble_register(rm) +
+                                 assemble_register(rn) +
+                                 assemble_register(rd),
+    'subs30': lambda rd, rn, rm: "000" +
+                                 "11" +
+                                 "0" +
+                                 "1" +
+                                 assemble_register(rm) +
+                                 assemble_register(rn) +
+                                 assemble_register(rd),
 
-    'movs': lambda register, imm8: f"2{parse_register(register):01x}{parse_imm8(imm8):02x}",
+    'adds21': lambda rd, rm, imm3: "000" +
+                                   "11" +
+                                   "1" +
+                                   "0" +
+                                   assemble_imm3(imm3) +
+                                   assemble_register(rm) +
+                                   assemble_register(rd),
+
+    'movs11': lambda rd, imm8: "001" +
+                               "00" +
+                               assemble_register(rd) +
+                               assemble_imm8(imm8),
+
+    'cmp11': lambda rd, imm8: "001" +
+                              "01" +
+                              assemble_register(rd) +
+                              assemble_imm8(imm8),
+    'adds11': lambda rd, imm8: "001" +
+                               "10" +
+                               assemble_register(rd) +
+                               assemble_imm8(imm8),
+
+    'subs11': lambda rd, imm8: "001" +
+                               "11" +
+                               assemble_register(rd) +
+                               assemble_imm8(imm8),
+    'ands20': lambda rdn, rm: "010000" +
+                              "0000" +
+                              assemble_register(rm) +
+                              assemble_register(rdn),
+    'eors20': lambda rdn, rm: "010000" +
+                              "0001" +
+                              assemble_register(rm) +
+                              assemble_register(rdn),
+    'lsls20': lambda rdn, rm: "010000" +
+                              "0010" +
+                              assemble_register(rm) +
+                              assemble_register(rdn),
+    'lsrs20': lambda rdn, rm: "010000" +
+                              "0011" +
+                              assemble_register(rm) +
+                              assemble_register(rdn),
 
 }
 
 
 class Assembler:
     def __init__(self):
-        self.instruction = Word(alphas)
+        self.instruction = Word(alphas).setResultsName('instruction')
         # registers starts with r and followed by a number
-        self.register = Word("r", alphanums)
-        self.immediate = Word("#", hexnums)
-        self.operand = self.register | self.immediate
+        self.register = Word("r", alphanums).setResultsName("register", listAllMatches=True)
+        self.immediate = Word("#", hexnums).setResultsName("immediate")
+        self.operand = (self.register | self.immediate)
         self.operand_list = self.operand + Optional("," + self.operand) + Optional("," + self.operand)
-        self.comment = Word("@")
+        self.comment = Word("@").setResultsName("comment")
         self._parser = (self.instruction + Optional(self.operand_list) + Optional(self.comment)) | self.comment
 
     def parse(self, line):
         return self._parser.parseString(line)
 
     def assemble(self, line):
-        parse = self.parse(line)
-        if self.comment.re.match(line) is not None:
+        parse = self.parse(line).as_dict()
+        if 'comment' in parse:
             return ""
-        parse = list(filter(lambda x: x not in ["@", ","], parse))
-        instruction = parse[0]
-        args = parse[1:]
-        return asm_map[instruction](*args)
+        instruction = parse['instruction'] + str(len(parse.get('register', []))) + str(int('immediate' in parse))
+        args = parse.get('register', [])
+        if 'immediate' in parse:
+            args.append(parse['immediate'])
+        return to_hex(asm_map[instruction](*args))
 
     def assemble_file(self, filename):
-        output = "v2.0 raw\n"
+        output = []
         with open(filename, 'r') as f:
             for line in f:
-                output += self.parse(line)
-        return output
+                if line.strip() != "":
+                    assembled = self.assemble(line.strip())
+                    if assembled:
+                        output.append(assembled)
+        return "v2.0 raw\n" + " ".join(output)
