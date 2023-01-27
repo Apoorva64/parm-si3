@@ -81,6 +81,22 @@ asm_map = {
                               assemble_register(rm) +
                               assemble_register(rdn),
 
+    'asrs20': lambda rdn, rm: "010000" +
+                              "0100" +
+                              assemble_register(rm) +
+                              assemble_register(rdn),
+    'adcs20': lambda rdn, rm: "010000" + "0101" + assemble_register(rm) + assemble_register(rdn),
+    'sbcs20': lambda rdn, rm: "010000" + "0110" + assemble_register(rm) + assemble_register(rdn),
+    'rors20': lambda rdn, rm: "010000" + "0111" + assemble_register(rm) + assemble_register(rdn),
+    'tst20': lambda rn, rm: "010000" + "1000" + assemble_register(rm) + assemble_register(rn),
+    'rsbs21': lambda rd, rn, imm3: "010000" + "1001" + assemble_register(rn) + assemble_register(rd),
+    'cmp20': lambda rn, rm: "010000" + "1010" + assemble_register(rm) + assemble_register(rn),
+    'cmn20': lambda rn, rm: "010000" + "1011" + assemble_register(rm) + assemble_register(rn),
+    'orrs20': lambda rdn, rm: "010000" + "1100" + assemble_register(rm) + assemble_register(rdn),
+    'muls20': lambda rdm, rn, _: "010000" + "1101" + assemble_register(rn) + assemble_register(rdm),
+    'bics20': lambda rdn, rm: "010000" + "1110" + assemble_register(rm) + assemble_register(rdn),
+    'mvns20': lambda rd, rm: "010000" + "1111" + assemble_register(rm) + assemble_register(rd),
+
 }
 
 
