@@ -1,6 +1,6 @@
 from pyparsing import Word, hexnums, Optional, alphas, alphanums
 
-from assembler_utils import assemble_register, assemble_imm5, assemble_imm8, assemble_imm3
+from assembler_utils import assemble_register, assemble_imm5, assemble_imm8, assemble_imm3, assemble_imm7_offset
 
 
 def to_hex(binary: str) -> str:
@@ -64,6 +64,13 @@ asm_map = {
                                 "11" +
                                 assemble_register(rd) +
                                 assemble_imm8(imm8),
+    'subs210': lambda rd, rm, imm3: "000" +
+                                    "11" +
+                                    "1" +
+                                    "1" +
+                                    assemble_imm3(imm3) +
+                                    assemble_register(rm) +
+                                    assemble_register(rd),
     'ands200': lambda rdn, rm: "010000" +
                                "0000" +
                                assemble_register(rm) +
@@ -96,6 +103,9 @@ asm_map = {
     'muls300': lambda rdm, rn, _: "010000" + "1101" + assemble_register(rn) + assemble_register(rdm),
     'bics200': lambda rdn, rm: "010000" + "1110" + assemble_register(rm) + assemble_register(rdn),
     'mvns200': lambda rd, rm: "010000" + "1111" + assemble_register(rm) + assemble_register(rd),
+
+    'add011': lambda sp, offset: "1011" + "0000" + "0" + assemble_imm7_offset(offset),
+    'sub011': lambda sp, offset: "1011" + "0000" + "1" + assemble_imm7_offset(offset),
 }
 
 
@@ -113,6 +123,7 @@ class Assembler:
         self.stack_pointer = 0
 
     def parse(self, line):
+        self.stack_pointer += 2
         return self._parser.parseString(line)
 
     def assemble(self, line):
@@ -122,10 +133,11 @@ class Assembler:
         instruction = parse['instruction'] + str(len(parse.get('register', []))) + str(int('immediate' in parse)) + str(
             int('sp' in parse))
         args = parse.get('register', [])
-        if 'immediate' in parse:
-            args.append(parse['immediate'])
         if 'sp' in parse:
             args.append(parse['sp'])
+        if 'immediate' in parse:
+            args.append(parse['immediate'])
+
         return to_hex(asm_map[instruction](*args))
 
     def assemble_file(self, filename):

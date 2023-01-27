@@ -23,3 +23,19 @@ class TestAssembler(TestCase):
                 with open(file.with_suffix(".bin"), "r") as f:
                     expected = f.read().strip()
                     self.assertEqual(expected, output)
+
+    def test_shift_add_sub_mov(self):
+        for file in Path("../test_integration/shift_add_sub_mov").glob("*.s"):
+            with self.subTest(file.name):
+                output = self.assembler.assemble_file(file)
+                with open(file.with_suffix(".bin"), "r") as f:
+                    expected = f.read().strip()
+                    self.assertEqual(expected, output)
+
+    def test_miscellaneous(self):
+        for file in Path("../test_integration/miscellaneous").glob("*.s"):
+            with self.subTest(file.name):
+                output = self.assembler.assemble_file(file)
+                with open(file.with_suffix(".bin"), "r") as f:
+                    expected = f.read().strip()
+                    self.assertEqual(expected, output)

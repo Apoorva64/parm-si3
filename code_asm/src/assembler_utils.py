@@ -12,6 +12,14 @@ def assemble_imm8(value):
     return f"{value:08b}"
 
 
+def assemble_imm7_offset(value):
+    value = int(value[1:], 0)
+    if value < 0 or value > 127:
+        raise ValueError(f"Invalid imm7 {value}")
+    value //= 4
+    return f"{value:07b}"
+
+
 def assemble_imm5(value):
     value = int(value[1:], 0)
     if value < 0 or value > 31:
