@@ -47,7 +47,6 @@ def signed_imm8(value: int) -> str:
 
 
 def signed_imm11(value: int) -> str:
-    print(f"value: {value}")
     return signed_immn(value, 11)
 
 
