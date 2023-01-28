@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pyparsing import Word, hexnums, Optional, alphas, alphanums
 
 from .assembler_utils import assemble_register, assemble_imm5, assemble_imm8, assemble_imm3, assemble_imm7_offset, \
@@ -9,29 +11,29 @@ def to_hex(binary: str) -> str:
 
 
 asm_map = {
-    'lsls210': lambda rd, rm, imm5: "000" +
+    'lsls2100': lambda rd, rm, imm5: "000" +
                                     "00" +
                                     assemble_imm5(imm5) +
                                     assemble_register(rm) +
                                     assemble_register(rd),
-    'lsrs210': lambda rd, rm, imm5: "000" +
+    'lsrs2100': lambda rd, rm, imm5: "000" +
                                     "01" +
                                     assemble_imm5(imm5) +
                                     assemble_register(rm) +
                                     assemble_register(rd),
-    'asrs210': lambda rd, rm, imm5: "000" +
+    'asrs2100': lambda rd, rm, imm5: "000" +
                                     "10" +
                                     assemble_imm5(imm5) +
                                     assemble_register(rm) +
                                     assemble_register(rd),
-    'adds300': lambda rd, rn, rm: "000" +
+    'adds3000': lambda rd, rn, rm: "000" +
                                   "11" +
                                   "0" +
                                   "0" +
                                   assemble_register(rm) +
                                   assemble_register(rn) +
                                   assemble_register(rd),
-    'subs300': lambda rd, rn, rm: "000" +
+    'subs3000': lambda rd, rn, rm: "000" +
                                   "11" +
                                   "0" +
                                   "1" +
@@ -39,7 +41,7 @@ asm_map = {
                                   assemble_register(rn) +
                                   assemble_register(rd),
 
-    'adds210': lambda rd, rm, imm3: "000" +
+    'adds2100': lambda rd, rm, imm3: "000" +
                                     "11" +
                                     "1" +
                                     "0" +
@@ -47,69 +49,89 @@ asm_map = {
                                     assemble_register(rm) +
                                     assemble_register(rd),
 
-    'movs110': lambda rd, imm8: "001" +
+    'movs1100': lambda rd, imm8: "001" +
                                 "00" +
                                 assemble_register(rd) +
                                 assemble_imm8(imm8),
 
-    'cmp110': lambda rd, imm8: "001" +
+    'cmp1100': lambda rd, imm8: "001" +
                                "01" +
                                assemble_register(rd) +
                                assemble_imm8(imm8),
-    'adds110': lambda rd, imm8: "001" +
+    'adds1100': lambda rd, imm8: "001" +
                                 "10" +
                                 assemble_register(rd) +
                                 assemble_imm8(imm8),
 
-    'subs110': lambda rd, imm8: "001" +
+    'subs1100': lambda rd, imm8: "001" +
                                 "11" +
                                 assemble_register(rd) +
                                 assemble_imm8(imm8),
-    'subs210': lambda rd, rm, imm3: "000" +
+    'subs2100': lambda rd, rm, imm3: "000" +
                                     "11" +
                                     "1" +
                                     "1" +
                                     assemble_imm3(imm3) +
                                     assemble_register(rm) +
                                     assemble_register(rd),
-    'ands200': lambda rdn, rm: "010000" +
+    'ands2000': lambda rdn, rm: "010000" +
                                "0000" +
                                assemble_register(rm) +
                                assemble_register(rdn),
-    'eors200': lambda rdn, rm: "010000" +
+    'eors2000': lambda rdn, rm: "010000" +
                                "0001" +
                                assemble_register(rm) +
                                assemble_register(rdn),
-    'lsls200': lambda rdn, rm: "010000" +
+    'lsls2000': lambda rdn, rm: "010000" +
                                "0010" +
                                assemble_register(rm) +
                                assemble_register(rdn),
-    'lsrs200': lambda rdn, rm: "010000" +
+    'lsrs2000': lambda rdn, rm: "010000" +
                                "0011" +
                                assemble_register(rm) +
                                assemble_register(rdn),
 
-    'asrs200': lambda rdn, rm: "010000" +
+    'asrs2000': lambda rdn, rm: "010000" +
                                "0100" +
                                assemble_register(rm) +
                                assemble_register(rdn),
-    'adcs200': lambda rdn, rm: "010000" + "0101" + assemble_register(rm) + assemble_register(rdn),
-    'sbcs200': lambda rdn, rm: "010000" + "0110" + assemble_register(rm) + assemble_register(rdn),
-    'rors200': lambda rdn, rm: "010000" + "0111" + assemble_register(rm) + assemble_register(rdn),
-    'tst200': lambda rn, rm: "010000" + "1000" + assemble_register(rm) + assemble_register(rn),
-    'rsbs210': lambda rd, rn, imm3: "010000" + "1001" + assemble_register(rn) + assemble_register(rd),
-    'cmp200': lambda rn, rm: "010000" + "1010" + assemble_register(rm) + assemble_register(rn),
-    'cmn200': lambda rn, rm: "010000" + "1011" + assemble_register(rm) + assemble_register(rn),
-    'orrs200': lambda rdn, rm: "010000" + "1100" + assemble_register(rm) + assemble_register(rdn),
-    'muls300': lambda rdm, rn, _: "010000" + "1101" + assemble_register(rn) + assemble_register(rdm),
-    'bics200': lambda rdn, rm: "010000" + "1110" + assemble_register(rm) + assemble_register(rdn),
-    'mvns200': lambda rd, rm: "010000" + "1111" + assemble_register(rm) + assemble_register(rd),
+    'adcs2000': lambda rdn, rm: "010000" + "0101" + assemble_register(rm) + assemble_register(rdn),
+    'sbcs2000': lambda rdn, rm: "010000" + "0110" + assemble_register(rm) + assemble_register(rdn),
+    'rors2000': lambda rdn, rm: "010000" + "0111" + assemble_register(rm) + assemble_register(rdn),
+    'tst2000': lambda rn, rm: "010000" + "1000" + assemble_register(rm) + assemble_register(rn),
+    'rsbs2100': lambda rd, rn, imm3: "010000" + "1001" + assemble_register(rn) + assemble_register(rd),
+    'cmp2000': lambda rn, rm: "010000" + "1010" + assemble_register(rm) + assemble_register(rn),
+    'cmn2000': lambda rn, rm: "010000" + "1011" + assemble_register(rm) + assemble_register(rn),
+    'orrs2000': lambda rdn, rm: "010000" + "1100" + assemble_register(rm) + assemble_register(rdn),
+    'muls3000': lambda rdm, rn, _: "010000" + "1101" + assemble_register(rn) + assemble_register(rdm),
+    'bics2000': lambda rdn, rm: "010000" + "1110" + assemble_register(rm) + assemble_register(rdn),
+    'mvns2000': lambda rd, rm: "010000" + "1111" + assemble_register(rm) + assemble_register(rd),
 
-    'add011': lambda sp, offset: "1011" + "0000" + "0" + assemble_imm7_offset(offset),
-    'sub011': lambda sp, offset: "1011" + "0000" + "1" + assemble_imm7_offset(offset),
+    'add0110': lambda sp, offset: "1011" + "0000" + "0" + assemble_imm7_offset(offset),
+    'sub0110': lambda sp, offset: "1011" + "0000" + "1" + assemble_imm7_offset(offset),
 
-    'str111': lambda rt, rn, offset: "1001" + "0" + assemble_register(rt) + assemble_imm8_offset(offset),
-    'ldr111': lambda rt, rn, offset: "1001" + "1" + assemble_register(rt) + assemble_imm8_offset(offset),
+    'str1110': lambda rt, rn, offset: "1001" + "0" + assemble_register(rt) + assemble_imm8_offset(offset),
+    'ldr1110': lambda rt, rn, offset: "1001" + "1" + assemble_register(rt) + assemble_imm8_offset(offset),
+
+    #'b0001': lambda offset: "11100" + assemble_imm11_offset(offset),
+
+    'bEQ0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bNE0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bCS0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bHS0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bCC0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bLO0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bMI0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bPL0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bVS0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bVC0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bHI0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bLS0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bGE0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bLT0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bGT0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bLE0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bAL0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
 }
 
 
@@ -123,8 +145,10 @@ class Assembler:
         self.operand = (self.register | self.immediate | self.sp)
         self.operand_list = self.operand + Optional("," + self.operand) + Optional("," + self.operand)
         self.comment = Word("@").setResultsName("comment")
-        self.label = Word(".").setResultsName("label")
-        self._parser = (self.instruction + Optional(self.operand_list) + Optional(self.comment)) | self.comment
+        self.label = Word(".", alphanums).setResultsName("label")
+        self._parser = (self.instruction + Optional(self.operand_list) + Optional(self.comment) + Optional(
+            self.label)) | self.comment | self.label
+        self.labels = {}
         self.stack_pointer = 0
 
     def parse(self, line):
@@ -134,25 +158,30 @@ class Assembler:
 
     def assemble(self, line):
         parse = self.parse(line).as_dict()
-        print(parse)
-        if 'label' in parse:
-            print("label")
+        if 'label' in parse and 'instruction' not in parse:
+            return ""
         if 'comment' in parse:
             return ""
         instruction = parse['instruction'] + str(len(parse.get('register', []))) + str(int('immediate' in parse)) + str(
-            int('sp' in parse))
-        print(instruction)
+            int('sp' in parse)) + str(int('label' in parse))
         args = parse.get('register', [])
         if 'sp' in parse:
             args.append(parse['sp'])
         if 'immediate' in parse:
             args.append(parse['immediate'])
-
-        print(args)
-        print("-------------------------------")
+        if 'label' in parse:
+            args.append(self.labels[parse['label']])
         return to_hex(asm_map[instruction](*args))
 
+    def build_labels_dict(self, filename):
+        pointer = 0
+        for line in Path(filename).read_text().splitlines():
+            pointer += 1
+            if line.startswith("."):
+                self.labels[line.strip(":")] = pointer
+
     def assemble_file(self, filename):
+        self.build_labels_dict(filename)
         output = []
         with open(filename, 'r') as f:
             for line in f:
