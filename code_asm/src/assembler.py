@@ -1,6 +1,7 @@
 from pyparsing import Word, hexnums, Optional, alphas, alphanums
 
-from assembler_utils import assemble_register, assemble_imm5, assemble_imm8, assemble_imm3, assemble_imm7_offset
+from .assembler_utils import assemble_register, assemble_imm5, assemble_imm8, assemble_imm3, assemble_imm7_offset, \
+    assemble_imm8_offset
 
 
 def to_hex(binary: str) -> str:
@@ -106,6 +107,9 @@ asm_map = {
 
     'add011': lambda sp, offset: "1011" + "0000" + "0" + assemble_imm7_offset(offset),
     'sub011': lambda sp, offset: "1011" + "0000" + "1" + assemble_imm7_offset(offset),
+
+    'str111': lambda rt, rn, offset: "1001" + "0" + assemble_register(rt) + assemble_imm8_offset(offset),
+    'ldr111': lambda rt, rn, offset: "1001" + "1" + assemble_register(rt) + assemble_imm8_offset(offset),
 }
 
 
@@ -119,25 +123,33 @@ class Assembler:
         self.operand = (self.register | self.immediate | self.sp)
         self.operand_list = self.operand + Optional("," + self.operand) + Optional("," + self.operand)
         self.comment = Word("@").setResultsName("comment")
+        self.label = Word(".").setResultsName("label")
         self._parser = (self.instruction + Optional(self.operand_list) + Optional(self.comment)) | self.comment
         self.stack_pointer = 0
 
     def parse(self, line):
         self.stack_pointer += 2
+        line = line.replace("[", "").replace("]", "")
         return self._parser.parseString(line)
 
     def assemble(self, line):
         parse = self.parse(line).as_dict()
+        print(parse)
+        if 'label' in parse:
+            print("label")
         if 'comment' in parse:
             return ""
         instruction = parse['instruction'] + str(len(parse.get('register', []))) + str(int('immediate' in parse)) + str(
             int('sp' in parse))
+        print(instruction)
         args = parse.get('register', [])
         if 'sp' in parse:
             args.append(parse['sp'])
         if 'immediate' in parse:
             args.append(parse['immediate'])
 
+        print(args)
+        print("-------------------------------")
         return to_hex(asm_map[instruction](*args))
 
     def assemble_file(self, filename):

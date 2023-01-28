@@ -1,7 +1,7 @@
 from pathlib import Path
 from unittest import TestCase
 
-from assembler import Assembler
+from src.assembler import Assembler
 
 
 class TestAssembler(TestCase):
@@ -31,6 +31,16 @@ class TestAssembler(TestCase):
                 with open(file.with_suffix(".bin"), "r") as f:
                     expected = f.read().strip()
                     self.assertEqual(expected, output)
+
+    def test_load_store(self):
+        output = self.assembler.assemble_file("../test_integration/load_store/load_store.s")
+        expected = Path("../test_integration/load_store/load_store.bin").read_text().strip()
+        self.assertEqual(expected, output)
+
+    def test_conditional(self):
+        output = self.assembler.assemble_file("../test_integration/conditional/branch.s")
+        expected = Path("../test_integration/conditional/branch.bin").read_text().strip()
+        self.assertEqual(expected, output)
 
     def test_miscellaneous(self):
         for file in Path("../test_integration/miscellaneous").glob("*.s"):
