@@ -173,9 +173,12 @@ class Assembler:
         if 'label' in parse:
             n_cible = self.labels[parse['label']]
             n_source = self.stack_pointer // 2
-            print(n_cible, n_source)
             args.append(n_cible - n_source - 3)
-        return to_hex(asm_map[instruction](*args))
+        asm = asm_map[instruction](*args)
+        print(asm)
+        print(to_hex(asm))
+        print("----------------------------------")
+        return to_hex(asm)
 
     def build_labels_dict(self, filename):
         pointer = 0
