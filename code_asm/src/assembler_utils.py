@@ -40,3 +40,21 @@ def assemble_imm3(value):
     if value < 0 or value > 7:
         raise ValueError(f"Invalid imm3 {value}")
     return f"{value:03b}"
+
+
+def signed_imm8(value: int):
+    if value < -128 or value > 127:
+        raise ValueError(f"Invalid imm8 {value}")
+    if value < 0:
+        return bin(value & int("1"*8, 2))[2:].zfill(8)
+    else:
+        return bin(value)[2:].zfill(8)
+
+
+def signed_imm11(value: int):
+    if value < -1024 or value > 1023:
+        raise ValueError(f"Invalid imm8 {value}")
+    if value < 0:
+        return bin(value & int("1"*8, 2))[2:].zfill(11)
+    else:
+        return bin(value)[2:].zfill(11)

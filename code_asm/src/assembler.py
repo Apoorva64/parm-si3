@@ -2,8 +2,8 @@ from pathlib import Path
 
 from pyparsing import Word, hexnums, Optional, alphas, alphanums
 
-from .assembler_utils import assemble_register, assemble_imm5, assemble_imm8, assemble_imm3, assemble_imm7_offset, \
-    assemble_imm8_offset
+from assembler_utils import assemble_register, assemble_imm5, assemble_imm8, assemble_imm3, assemble_imm7_offset, \
+    assemble_imm8_offset, signed_imm8, signed_imm11
 
 
 def to_hex(binary: str) -> str:
@@ -113,25 +113,25 @@ asm_map = {
     'str1110': lambda rt, rn, offset: "1001" + "0" + assemble_register(rt) + assemble_imm8_offset(offset),
     'ldr1110': lambda rt, rn, offset: "1001" + "1" + assemble_register(rt) + assemble_imm8_offset(offset),
 
-    #'b0001': lambda offset: "11100" + assemble_imm11_offset(offset),
+    'b0001': lambda offset: "11100" + signed_imm11(offset),
 
-    'bEQ0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bNE0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bCS0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bHS0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bCC0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bLO0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bMI0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bPL0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bVS0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bVC0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bHI0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bLS0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bGE0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bLT0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bGT0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bLE0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
-    'bAL0001': lambda offset: "1101" + "0000" + assemble_imm8_offset(offset),
+    'bEQ0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bNE0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bCS0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bHS0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bCC0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bLO0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bMI0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bPL0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bVS0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bVC0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bHI0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bLS0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bGE0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bLT0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bGT0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bLE0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bAL0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
 }
 
 
@@ -170,7 +170,9 @@ class Assembler:
         if 'immediate' in parse:
             args.append(parse['immediate'])
         if 'label' in parse:
-            args.append(self.labels[parse['label']])
+            n_cible = self.labels[parse['label']]
+            n_source = self.stack_pointer // 2
+            args.append(n_cible - n_source - 3)
         return to_hex(asm_map[instruction](*args))
 
     def build_labels_dict(self, filename):
