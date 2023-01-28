@@ -38,6 +38,7 @@ class TestAssembler(TestCase):
         self.assertEqual(expected, output)
 
     def test_conditional(self):
+        self.assembler = Assembler()
         output = self.assembler.assemble_file("../test_integration/conditional/branch.s")
         expected = Path("../test_integration/conditional/branch.bin").read_text().strip()
         self.assertEqual(expected, output)

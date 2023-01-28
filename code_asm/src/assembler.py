@@ -158,6 +158,7 @@ class Assembler:
 
     def assemble(self, line):
         parse = self.parse(line).as_dict()
+        print(parse)
         if 'label' in parse and 'instruction' not in parse:
             return ""
         if 'comment' in parse:
@@ -172,6 +173,7 @@ class Assembler:
         if 'label' in parse:
             n_cible = self.labels[parse['label']]
             n_source = self.stack_pointer // 2
+            print(n_cible, n_source)
             args.append(n_cible - n_source - 3)
         return to_hex(asm_map[instruction](*args))
 
