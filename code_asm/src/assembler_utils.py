@@ -42,18 +42,16 @@ def assemble_imm3(value):
     return f"{value:03b}"
 
 
-def signed_imm8(value: int):
+def signed_imm8(value: int) -> str:
     return signed_immn(value, 8)
 
 
-def signed_imm11(value: int):
+def signed_imm11(value: int) -> str:
+    print(f"value: {value}")
     return signed_immn(value, 11)
 
 
-def signed_immn(value: int, n: int):
-    if value < -(2**(n-1)) or value > 2**(n-1)-1:
-        raise ValueError(f"Invalid imm{n} {value}")
+def signed_immn(value: int, n: int) -> str:
     if value < 0:
-        return bin(value & int("1"*n, 2))[2:].zfill(n)
-    else:
-        return bin(value)[2:].zfill(n)
+        value = (1 << n) + value
+    return f"{value:0{n}b}"

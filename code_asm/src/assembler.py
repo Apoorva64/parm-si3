@@ -152,17 +152,16 @@ class Assembler:
         self.stack_pointer = 0
 
     def parse(self, line):
-        self.stack_pointer += 2
         line = line.replace("[", "").replace("]", "")
         return self._parser.parseString(line)
 
     def assemble(self, line):
         parse = self.parse(line).as_dict()
-        print(parse)
         if 'label' in parse and 'instruction' not in parse:
             return ""
         if 'comment' in parse:
             return ""
+        self.stack_pointer += 2
         instruction = parse['instruction'] + str(len(parse.get('register', []))) + str(int('immediate' in parse)) + str(
             int('sp' in parse)) + str(int('label' in parse))
         args = parse.get('register', [])
@@ -172,20 +171,23 @@ class Assembler:
             args.append(parse['immediate'])
         if 'label' in parse:
             n_cible = self.labels[parse['label']]
-            n_source = self.stack_pointer // 2
-            args.append(n_cible - n_source - 3)
+            n_source = self.stack_pointer
+            args.append(n_cible//2 - n_source//2 - 2)
+            print(parse['label'], n_cible, n_source, args[-1])
         asm = asm_map[instruction](*args)
-        print(asm)
-        print(to_hex(asm))
-        print("----------------------------------")
         return to_hex(asm)
 
     def build_labels_dict(self, filename):
         pointer = 0
         for line in Path(filename).read_text().splitlines():
-            pointer += 1
-            if line.startswith("."):
-                self.labels[line.strip(":")] = pointer
+            line = self.parse(line)
+            if 'label' in line and 'instruction' not in line:
+                self.labels[line.get('label')] = pointer
+                continue
+            if 'comment' in line:
+                continue
+            pointer += 2
+        print(self.labels)
 
     def assemble_file(self, filename):
         self.build_labels_dict(filename)
