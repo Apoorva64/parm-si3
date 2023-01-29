@@ -155,7 +155,7 @@
     <a name="clabelup" val="east"/>
     <appear>
       <circ-anchor facing="north" height="6" width="6" x="117" y="197"/>
-      <circ-port height="10" pin="1790,300" width="10" x="145" y="205"/>
+      <circ-port height="10" pin="1790,300" width="10" x="135" y="205"/>
       <circ-port height="10" pin="1900,420" width="10" x="145" y="195"/>
       <circ-port height="8" pin="230,390" width="8" x="96" y="206"/>
       <circ-port height="8" pin="240,100" width="8" x="86" y="176"/>
