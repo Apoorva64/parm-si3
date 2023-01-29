@@ -29,9 +29,9 @@ def assemble_imm7_offset(value: str) -> str:
     :return: the immediate value as a 7-bit binary string
     """
     value = int(value[1:], 0)
+    value //= 4
     if value < 0 or value > 127:
         raise ValueError(f"Invalid imm7 {value}")
-    value //= 4
     return f"{value:07b}"
 
 
@@ -42,9 +42,9 @@ def assemble_imm8_offset(value: str) -> str:
     :return: the immediate value as a 8-bit binary string
     """
     value = int(value[1:], 0)
+    value //= 4
     if value < 0 or value > 255:
         raise ValueError(f"Invalid imm8 {value}")
-    value //= 4
     return f"{value:08b}"
 
 

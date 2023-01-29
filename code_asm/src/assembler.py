@@ -1,4 +1,5 @@
 from pathlib import Path
+from pprint import pprint
 from typing import Dict
 
 from pyparsing import Word, hexnums, Optional, alphas, alphanums
@@ -124,23 +125,26 @@ asm_map: Dict = {
     'b0001': lambda offset: "11100" + signed_imm11(offset),
 
     # Conditional branch
-    'bEQ0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
-    'bNE0001': lambda offset: "1101" + "0001" + signed_imm8(offset),
-    'bCS0001': lambda offset: "1101" + "0010" + signed_imm8(offset),
-    'bHS0001': lambda offset: "1101" + "0010" + signed_imm8(offset),
-    'bCC0001': lambda offset: "1101" + "0011" + signed_imm8(offset),
-    'bLO0001': lambda offset: "1101" + "0011" + signed_imm8(offset),
-    'bMI0001': lambda offset: "1101" + "0100" + signed_imm8(offset),
-    'bPL0001': lambda offset: "1101" + "0101" + signed_imm8(offset),
-    'bVS0001': lambda offset: "1101" + "0110" + signed_imm8(offset),
-    'bVC0001': lambda offset: "1101" + "0111" + signed_imm8(offset),
-    'bHI0001': lambda offset: "1101" + "1000" + signed_imm8(offset),
-    'bLS0001': lambda offset: "1101" + "1001" + signed_imm8(offset),
-    'bGE0001': lambda offset: "1101" + "1010" + signed_imm8(offset),
-    'bLT0001': lambda offset: "1101" + "1011" + signed_imm8(offset),
-    'bGT0001': lambda offset: "1101" + "1100" + signed_imm8(offset),
-    'bLE0001': lambda offset: "1101" + "1101" + signed_imm8(offset),
-    'bAL0001': lambda offset: "1101" + "1110" + signed_imm8(offset),
+    'beq0001': lambda offset: "1101" + "0000" + signed_imm8(offset),
+    'bne0001': lambda offset: "1101" + "0001" + signed_imm8(offset),
+    'bcs0001': lambda offset: "1101" + "0010" + signed_imm8(offset),
+    'bhs0001': lambda offset: "1101" + "0010" + signed_imm8(offset),
+    'bcc0001': lambda offset: "1101" + "0011" + signed_imm8(offset),
+    'blo0001': lambda offset: "1101" + "0011" + signed_imm8(offset),
+    'bmi0001': lambda offset: "1101" + "0100" + signed_imm8(offset),
+    'bpl0001': lambda offset: "1101" + "0101" + signed_imm8(offset),
+    'bvs0001': lambda offset: "1101" + "0110" + signed_imm8(offset),
+    'bvc0001': lambda offset: "1101" + "0111" + signed_imm8(offset),
+    'bhi0001': lambda offset: "1101" + "1000" + signed_imm8(offset),
+    'bls0001': lambda offset: "1101" + "1001" + signed_imm8(offset),
+    'bge0001': lambda offset: "1101" + "1010" + signed_imm8(offset),
+    'blt0001': lambda offset: "1101" + "1011" + signed_imm8(offset),
+    'bgt0001': lambda offset: "1101" + "1100" + signed_imm8(offset),
+    'ble0001': lambda offset: "1101" + "1101" + signed_imm8(offset),
+    'bal0001': lambda offset: "1101" + "1110" + signed_imm8(offset),
+
+    'str1010': lambda rt, sp: "1001" + "0" + assemble_register(rt) + assemble_imm8_offset("#0"),
+    'ldr1010': lambda rt, sp: "1001" + "1" + assemble_register(rt) + assemble_imm8_offset("#0"),
 }
 
 
@@ -159,9 +163,9 @@ class Assembler:
         self.operand_list = self.operand + Optional("," + self.operand) + Optional("," + self.operand)
 
         # Match comments
-        self.comment = Word("@").setResultsName("comment")
+        self.comment = (Word("@") | Word("RUN:")).setResultsName("comment")
         # Match Labels
-        self.label = Word(".", alphanums).setResultsName("label")
+        self.label = Word(".", alphanums + '_').setResultsName("label") + Optional(Word(":"))
 
         # Configure the global parser
         self._parser = (self.instruction + Optional(self.operand_list) + Optional(self.comment) + Optional(
@@ -193,8 +197,8 @@ class Assembler:
             return ""
 
         # build instruction key from instruction and params
-        instruction = parse['instruction'] + str(len(parse.get('register', []))) + str(int('immediate' in parse)) + str(
-            int('sp' in parse)) + str(int('label' in parse))
+        instruction = (parse['instruction'] + str(len(parse.get('register', []))) + str(int('immediate' in parse)) + str(
+            int('sp' in parse)) + str(int('label' in parse))).lower()
 
         # Build instruction arguments
         args = parse.get('register', [])
@@ -209,7 +213,7 @@ class Assembler:
 
         # increment program counter
         self.program_counter += 2
-
+        print("Assembling: ", instruction, args, "=>", to_hex(asm_map[instruction](*args)))
         # return assembled instruction
         return to_hex(asm_map[instruction](*args))
 
@@ -230,6 +234,7 @@ class Assembler:
             if 'comment' in line:
                 continue
             pointer += 2
+        pprint(self.labels)
 
     def assemble_file(self, filename):
         """
