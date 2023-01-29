@@ -145,6 +145,12 @@ asm_map: Dict = {
 
     'str1010': lambda rt, sp: "1001" + "0" + assemble_register(rt) + assemble_imm8_offset("#0"),
     'ldr1010': lambda rt, sp: "1001" + "1" + assemble_register(rt) + assemble_imm8_offset("#0"),
+
+    'movs2000': lambda rd, rm: "000" +
+                               "00" +
+                               assemble_imm5("#0") +
+                               assemble_register(rm) +
+                               assemble_register(rd),
 }
 
 
@@ -165,7 +171,9 @@ class Assembler:
         # Match comments
         self.comment = (Word("@") | Word("RUN:")).setResultsName("comment")
         # Match Labels
-        self.label = Word(".", alphanums + '_').setResultsName("label") + Optional(Word(":"))
+        self.label = Word(".", alphanums + alphas + "_"
+
+                          ).setResultsName("label") + Optional(Word(":"))
 
         # Configure the global parser
         self._parser = (self.instruction + Optional(self.operand_list) + Optional(self.comment) + Optional(
@@ -196,9 +204,15 @@ class Assembler:
         if ('label' in parse and 'instruction' not in parse) or 'comment' in parse:
             return ""
 
+        if parse['instruction'].lower() in ['run', 'run:', 'push', 'pop']:
+            return ""
+
         # build instruction key from instruction and params
-        instruction = (parse['instruction'] + str(len(parse.get('register', []))) + str(int('immediate' in parse)) + str(
+        instruction = (
+                parse['instruction'] + str(len(parse.get('register', []))) + str(int('immediate' in parse)) + str(
             int('sp' in parse)) + str(int('label' in parse))).lower()
+        if instruction == 'add1110' and parse['register'][0] == 'r7':
+            return ""
 
         # Build instruction arguments
         args = parse.get('register', [])
@@ -210,10 +224,14 @@ class Assembler:
             target_ins = self.labels[parse['label']] // 2
             source_ins = self.program_counter // 2
             args.append(target_ins - source_ins - 3)
+            print("source_ins", source_ins, "target_ins", target_ins, "offset", (target_ins - source_ins - 3))
+            print("source_ins", hex(source_ins * 2), "target_ins", hex(target_ins * 2), "offset",
+                  (target_ins - source_ins - 3))
 
         # increment program counter
+        print("Assembling: ", instruction, args, "=>", to_hex(asm_map[instruction](*args)), "at",
+              hex(self.program_counter))
         self.program_counter += 2
-        print("Assembling: ", instruction, args, "=>", to_hex(asm_map[instruction](*args)))
         # return assembled instruction
         return to_hex(asm_map[instruction](*args))
 
@@ -233,6 +251,15 @@ class Assembler:
                 continue
             if 'comment' in line:
                 continue
+            if line['instruction'].lower() in ['run', 'run:', 'push', 'pop']:
+                continue
+            # build instruction key from instruction and params
+            instruction = (
+                    line['instruction'] + str(len(line.get('register', []))) + str(int('immediate' in line)) + str(
+                int('sp' in line)) + str(int('label' in line))).lower()
+            if instruction == 'add1110' and line['register'][0] == 'r7':
+                continue
+
             pointer += 2
         pprint(self.labels)
 
