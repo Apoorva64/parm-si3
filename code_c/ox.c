@@ -18,20 +18,22 @@ void run() {
     int readInt;
     int readChar;
     // print welcome message
-    PUTCHAR('W', 'E', 'L', 'C', 'O', 'M', 'E', ' ', 'T', 'O', ' ', 'T','H', 'E', ' ', 'T', 'I', 'C', ' ', 'T', 'A', 'C');
-    PUTCHAR( ' ', 'T', 'O', 'E', ' ', 'G', 'A', 'M', 'E', '\n');
+    PUTCHAR('W', 'E', 'L', 'C', 'O', 'M', 'E', ' ', 'T', 'O', ' ', 'T', 'H', 'E', ' ', 'T', 'I', 'C', ' ', 'T', 'A',
+            'C');
+    PUTCHAR(' ', 'T', 'O', 'E', ' ', 'G', 'A', 'M', 'E', '\n');
     PUTCHAR('\n');
     // explain coordinate format
-    PUTCHAR('T', 'H', 'E', ' ', 'C', 'O', 'O', 'R', 'D', 'I', 'N', 'A', 'T', 'E', 'S', ' ', 'A', 'R', 'E', ' ', 'I', 'N');
-    PUTCHAR(' ', 'T', 'H', 'E', ' ', 'F', 'O', 'L', 'L', 'O', 'W', 'I', 'N', 'G', ' ', 'F', 'O', 'R', 'M', 'A', 'T', ':', '\n');
+    PUTCHAR('T', 'H', 'E', ' ', 'C', 'O', 'O', 'R', 'D', 'I', 'N', 'A', 'T', 'E', 'S', ' ', 'A', 'R', 'E', ' ', 'I',
+            'N');
+    PUTCHAR(' ', 'T', 'H', 'E', ' ', 'F', 'O', 'L', 'L', 'O', 'W', 'I', 'N', 'G', ' ', 'F', 'O', 'R', 'M', 'A', 'T',
+            ':', '\n');
     PUTCHAR('\n');
     PUTCHAR('1', '1', '|', '1', '2', '|', '1', '3', '\n');
-    PUTCHAR('-','-', '+', '-','-', '+', '-','-', '\n');
+    PUTCHAR('-', '-', '+', '-', '-', '+', '-', '-', '\n');
     PUTCHAR('2', '1', '|', '2', '2', '|', '2', '3', '\n');
-    PUTCHAR('-','-', '+', '-','-', '+', '-','-', '\n');
+    PUTCHAR('-', '-', '+', '-', '-', '+', '-', '-', '\n');
     PUTCHAR('3', '1', '|', '3', '2', '|', '3', '3', '\n');
     PUTCHAR('\n');
-
 
 
     turn:
@@ -69,11 +71,10 @@ void run() {
     }
     if (square00 != ' ' && square01 != ' ' && square02 != ' ' &&
         square10 != ' ' && square11 != ' ' && square12 != ' ' &&
-        square20 != ' ' && square21 != ' ' && square22 != ' ' ) {
+        square20 != ' ' && square21 != ' ' && square22 != ' ') {
         PUTCHAR('D', 'R', 'A', 'W', '\n');
         goto end;
     }
-
 
 
     input_label:
@@ -144,14 +145,13 @@ void run() {
 
     scoreboard:
     PUTCHAR('S', 'C', 'O', 'R', 'E', 'B', 'O', 'A', 'R', 'D', '\n');
-    PUTCHAR('P', 'L', 'A', 'Y', 'E', 'R', ' ', 'X', ' ', 'S', 'C', 'O', 'R', 'E', ':', ' ','0'+xPayerScore, '\n');
-    PUTCHAR('P', 'L', 'A', 'Y', 'E', 'R', ' ', 'O', ' ', 'S', 'C', 'O', 'R', 'E', ':', ' ', '0'+oPlayerScore, '\n');
+    PUTCHAR('P', 'L', 'A', 'Y', 'E', 'R', ' ', 'X', ' ', 'S', 'C', 'O', 'R', 'E', ':', ' ', '0' + xPayerScore, '\n');
+    PUTCHAR('P', 'L', 'A', 'Y', 'E', 'R', ' ', 'O', ' ', 'S', 'C', 'O', 'R', 'E', ':', ' ', '0' + oPlayerScore, '\n');
     // press enter to continue
-    PUTCHAR('P', 'R', 'E', 'S', 'S', ' ', 'E', 'N', 'T', 'E', 'R', ' ', 'T', 'O', ' ', 'C', 'O', 'N', 'T', 'I', 'N', 'U', 'E', '\n');
+    PUTCHAR('P', 'R', 'E', 'S', 'S', ' ', 'E', 'N', 'T', 'E', 'R', ' ', 'T', 'O', ' ', 'C', 'O', 'N', 'T', 'I', 'N',
+            'U', 'E', '\n');
     READKEY();
     goto scoreboard_back;
-
-
 
 
 }
