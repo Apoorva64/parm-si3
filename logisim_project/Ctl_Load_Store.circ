@@ -243,14 +243,8 @@ end TCL_Generic;
       <text dominant-baseline="central" fill="#404040" font-family="SansSerif" font-size="12" text-anchor="middle" x="82" y="140">Reset</text>
       <text dominant-baseline="central" fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="159" y="170">Load_Store</text>
     </appear>
-    <comp lib="0" loc="(1040,670)" name="Bit Extender">
-      <a name="in_width" val="16"/>
-      <a name="out_width" val="3"/>
-      <a name="type" val="zero"/>
-    </comp>
     <comp lib="0" loc="(1060,550)" name="Bit Extender">
       <a name="out_width" val="32"/>
-      <a name="type" val="zero"/>
     </comp>
     <comp lib="0" loc="(1080,1020)" name="Tunnel">
       <a name="facing" val="north"/>
@@ -424,10 +418,25 @@ end TCL_Generic;
       <a name="label" val="RAM_ADDR"/>
       <a name="width" val="32"/>
     </comp>
-    <comp lib="0" loc="(870,730)" name="Constant">
-      <a name="facing" val="north"/>
-      <a name="value" val="0x8"/>
-      <a name="width" val="4"/>
+    <comp lib="0" loc="(870,550)" name="Splitter">
+      <a name="appear" val="center"/>
+      <a name="bit1" val="0"/>
+      <a name="bit10" val="none"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+      <a name="bit2" val="0"/>
+      <a name="bit3" val="0"/>
+      <a name="bit4" val="0"/>
+      <a name="bit5" val="0"/>
+      <a name="bit6" val="0"/>
+      <a name="bit7" val="0"/>
+      <a name="bit8" val="none"/>
+      <a name="bit9" val="none"/>
+      <a name="fanout" val="1"/>
+      <a name="incoming" val="16"/>
     </comp>
     <comp lib="0" loc="(870,80)" name="Tunnel">
       <a name="facing" val="east"/>
@@ -460,10 +469,26 @@ end TCL_Generic;
       <a name="label" val="Store"/>
       <a name="output" val="true"/>
     </comp>
-    <comp lib="0" loc="(960,550)" name="Bit Extender">
-      <a name="in_width" val="16"/>
-      <a name="out_width" val="8"/>
-      <a name="type" val="zero"/>
+    <comp lib="0" loc="(910,660)" name="Splitter">
+      <a name="appear" val="center"/>
+      <a name="bit0" val="none"/>
+      <a name="bit1" val="none"/>
+      <a name="bit10" val="0"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+      <a name="bit2" val="none"/>
+      <a name="bit3" val="none"/>
+      <a name="bit4" val="none"/>
+      <a name="bit5" val="none"/>
+      <a name="bit6" val="none"/>
+      <a name="bit7" val="none"/>
+      <a name="bit8" val="0"/>
+      <a name="bit9" val="0"/>
+      <a name="fanout" val="1"/>
+      <a name="incoming" val="16"/>
     </comp>
     <comp lib="1" loc="(260,1130)" name="NOT Gate">
       <a name="size" val="20"/>
@@ -507,10 +532,6 @@ end TCL_Generic;
     <comp lib="3" loc="(1150,990)" name="Adder">
       <a name="width" val="32"/>
     </comp>
-    <comp lib="3" loc="(950,670)" name="Shifter">
-      <a name="shift" val="lr"/>
-      <a name="width" val="16"/>
-    </comp>
     <comp lib="4" loc="(320,1020)" name="D Flip-Flop">
       <a name="appearance" val="logisim_evolution"/>
       <a name="trigger" val="falling"/>
@@ -537,6 +558,7 @@ end TCL_Generic;
     <wire from="(1030,1080)" to="(1460,1080)"/>
     <wire from="(1030,900)" to="(1030,1080)"/>
     <wire from="(1030,900)" to="(1460,900)"/>
+    <wire from="(1040,660)" to="(1040,670)"/>
     <wire from="(1040,670)" to="(1100,670)"/>
     <wire from="(1060,550)" to="(1090,550)"/>
     <wire from="(1080,1000)" to="(1080,1020)"/>
@@ -606,19 +628,17 @@ end TCL_Generic;
     <wire from="(640,1040)" to="(640,1080)"/>
     <wire from="(660,1020)" to="(760,1020)"/>
     <wire from="(840,930)" to="(840,1250)"/>
-    <wire from="(850,550)" to="(920,550)"/>
+    <wire from="(850,550)" to="(870,550)"/>
     <wire from="(850,660)" to="(910,660)"/>
     <wire from="(870,120)" to="(900,120)"/>
     <wire from="(870,170)" to="(900,170)"/>
     <wire from="(870,240)" to="(900,240)"/>
     <wire from="(870,340)" to="(900,340)"/>
-    <wire from="(870,680)" to="(870,730)"/>
-    <wire from="(870,680)" to="(910,680)"/>
     <wire from="(870,80)" to="(900,80)"/>
+    <wire from="(890,550)" to="(1020,550)"/>
     <wire from="(90,1090)" to="(190,1090)"/>
     <wire from="(90,1090)" to="(90,1200)"/>
     <wire from="(90,1200)" to="(350,1200)"/>
-    <wire from="(950,670)" to="(1000,670)"/>
-    <wire from="(960,550)" to="(1020,550)"/>
+    <wire from="(930,660)" to="(1040,660)"/>
   </circuit>
 </project>
