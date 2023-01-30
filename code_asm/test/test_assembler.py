@@ -70,11 +70,11 @@ class TestAssembler(TestCase):
     def test_simple_add(self):
         self.assembler = Assembler()
         output = self.assembler.assemble_file("../../code_c/tests/simple_add.s")
-        expected = Path("../../code_c/simple_add.bin").read_text().strip()
+        expected = Path("../../code_c/tests/simple_add.bin").read_text().strip()
         self.assertEqual(expected, output)
 
     def test_fp_simple_add(self):
         self.assembler = Assembler()
         output = self.assembler.assemble_file("../../code_c/tests/testfp.s")
-        expected = Path("../../code_c/testfp.bin").read_text().strip()
+        expected = Path("../../code_c/tests/testfp.bin").read_text().strip()
         self.assertEqual(expected, output)
