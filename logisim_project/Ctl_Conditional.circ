@@ -9,11 +9,13 @@
       <a name="incoming" val="1"/>
     </tool>
     <tool name="Pin">
-      <a name="facing" val="north"/>
+      <a name="appearance" val="NewPins"/>
     </tool>
     <tool name="Probe">
-      <a name="facing" val="west"/>
-      <a name="radix" val="10unsigned"/>
+      <a name="appearance" val="NewPins"/>
+    </tool>
+    <tool name="Tunnel">
+      <a name="facing" val="south"/>
     </tool>
     <tool name="Pull Resistor">
       <a name="facing" val="north"/>
@@ -361,7 +363,6 @@ end TCL_Generic;
     </comp>
     <comp lib="0" loc="(540,120)" name="Bit Extender">
       <a name="out_width" val="11"/>
-      <a name="type" val="input"/>
     </comp>
     <comp lib="0" loc="(540,480)" name="Power">
       <a name="facing" val="west"/>
@@ -375,9 +376,9 @@ end TCL_Generic;
       <a name="facing" val="east"/>
       <a name="label" val="COND"/>
     </comp>
-    <comp lib="0" loc="(690,120)" name="Tunnel">
+    <comp lib="0" loc="(690,90)" name="Tunnel">
       <a name="facing" val="south"/>
-      <a name="label" val="ENABLE"/>
+      <a name="label" val="VERIFIED"/>
     </comp>
     <comp lib="0" loc="(720,140)" name="Pull Resistor">
       <a name="facing" val="north"/>
@@ -394,6 +395,10 @@ end TCL_Generic;
     </comp>
     <comp lib="0" loc="(750,410)" name="Pull Resistor">
       <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(770,470)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="label" val="VERIFIED"/>
     </comp>
     <comp lib="0" loc="(780,410)" name="Pin">
       <a name="facing" val="west"/>
@@ -551,12 +556,14 @@ end TCL_Generic;
     <wire from="(610,140)" to="(680,140)"/>
     <wire from="(640,400)" to="(650,400)"/>
     <wire from="(680,410)" to="(710,410)"/>
-    <wire from="(690,120)" to="(690,130)"/>
+    <wire from="(690,90)" to="(690,130)"/>
     <wire from="(700,140)" to="(720,140)"/>
     <wire from="(720,140)" to="(750,140)"/>
     <wire from="(720,390)" to="(720,400)"/>
     <wire from="(730,410)" to="(750,410)"/>
-    <wire from="(750,410)" to="(780,410)"/>
+    <wire from="(750,410)" to="(770,410)"/>
+    <wire from="(770,410)" to="(770,470)"/>
+    <wire from="(770,410)" to="(780,410)"/>
     <wire from="(870,280)" to="(870,530)"/>
     <wire from="(890,30)" to="(890,220)"/>
   </circuit>
