@@ -59,7 +59,7 @@ class TestAssembler(TestCase):
                     self.assertEqual(expected, output)
 
     def test_advanced(self):
-        for file in Path("../../code_c").glob("*.s"):
+        for file in Path("../../code_c/tests").glob("*.s"):
             with self.subTest(file.name):
                 self.assembler = Assembler()
                 output = self.assembler.assemble_file(file)
@@ -69,12 +69,12 @@ class TestAssembler(TestCase):
 
     def test_simple_add(self):
         self.assembler = Assembler()
-        output = self.assembler.assemble_file("../../code_c/simple_add.s")
+        output = self.assembler.assemble_file("../../code_c/tests/simple_add.s")
         expected = Path("../../code_c/simple_add.bin").read_text().strip()
         self.assertEqual(expected, output)
 
     def test_fp_simple_add(self):
         self.assembler = Assembler()
-        output = self.assembler.assemble_file("../../code_c/testfp.s")
+        output = self.assembler.assemble_file("../../code_c/tests/testfp.s")
         expected = Path("../../code_c/testfp.bin").read_text().strip()
         self.assertEqual(expected, output)
