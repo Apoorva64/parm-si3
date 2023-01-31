@@ -114,7 +114,6 @@ void run() {
         case 33:
             square22 = currentPlayer;
             break;
-
     }
     if (currentPlayer == 'X') {
         currentPlayer = 'O';
